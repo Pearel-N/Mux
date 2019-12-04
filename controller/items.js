@@ -30,21 +30,15 @@ const addItem = async (req, res) => {
 };
 
 const getItems = async (req, res) => {
-  let items = await Item.find({}, items => {
-    return res
-      .status(200)
-      .json({
-        data: {
-          items
-        }
-      })
-      .catch(err => {
-        return res.json({
-          status: 400,
-          message: "Error while fetching items"
-        });
-      });
-  });
+  console.log("Here");
+  try {
+    let items = await Item.find();
+    return res.status(200).json({
+      data: items
+    });
+  } catch (err) {
+    return res.status(500).send(err);
+  }
 };
 
 module.exports = {
