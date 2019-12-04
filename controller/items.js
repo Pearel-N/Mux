@@ -30,7 +30,6 @@ const addItem = async (req, res) => {
 };
 
 const getItems = async (req, res) => {
-  console.log("Here");
   try {
     let items = await Item.find();
     return res.status(200).json({
@@ -41,7 +40,25 @@ const getItems = async (req, res) => {
   }
 };
 
+const removeItem = async (req, res) => {
+  try {
+    let item = await Item.deleteOne(
+      ({ _id: req.params.itemId },
+      item => {
+        return res.status(200).json({
+          data: {
+            message: "deleted"
+          }
+        });
+      })
+    );
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+};
+
 module.exports = {
   addItem,
-  getItems
+  getItems,
+  removeItem
 };
